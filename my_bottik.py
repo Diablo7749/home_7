@@ -32,7 +32,8 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self, value):
         try:
-            self.value = datetime.strptime(value, "%d.%m.%Y").date()
+            datetime.strptime(value, "%d.%m.%Y")  
+            super().__init__(value)
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
 
@@ -90,7 +91,7 @@ class AddressBook(UserDict):
         
         for record in self.data.values():
             if record.birthday:
-                bday = record.birthday.value.replace(year=today.year)
+                bday = datetime.strptime(record.birthday.value, "%d.%m.%Y").date().replace(year=today.year)
                 if bday < today:
                     bday = bday.replace(year=today.year + 1)
                 
@@ -195,3 +196,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
